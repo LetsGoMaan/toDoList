@@ -84,6 +84,7 @@ function App() {
         const updatedTasks = taskForUpdate.map(el => el.id === taskID ? {...el, isDone: eventStatus} : el)
         const copyTasks = {...tasks}
         copyTasks[todoListId] = updatedTasks
+
         setTasks(copyTasks)
 
         // setTasks(tasks.map(el => el.id === taskID
