@@ -13,3 +13,9 @@
 .isDone {
     opacity: 0.5;
 }
+
+.addItemForm {
+    border: 2px solid hotpink;
+    border-radius: 3px;
+    padding: 10px;
+}
