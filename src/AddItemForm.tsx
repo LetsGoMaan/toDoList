@@ -1,5 +1,7 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, useState} from "react";
 import classes from "./TodoList.module.css";
+import {IconButton, TextField} from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 
 type AddItemFormPropsType = {
@@ -8,11 +10,12 @@ type AddItemFormPropsType = {
 
 const AddItemForm: FC<AddItemFormPropsType> = (props) => {
     const [title, setTitle] = useState("")
-    const [error, setError] = useState<string | null>(null)
+    const [error, setValidationError] = useState<string | null>(null)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
-        setError(null)
+        setValidationError(null)
+
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -26,20 +29,31 @@ const AddItemForm: FC<AddItemFormPropsType> = (props) => {
             props.addItem(title.trim());
             setTitle("");
         } else {
-            setError("Title is required")
+            setValidationError("Title is required")
         }
 
     }
 
     return (
         <div className={classes.addItemForm}>
-            <input
-                className={error ? classes.error : ''}
+            <TextField
+
+                size={"small"}
+                // className={validationError ? classes.error : ''} ??? как сделать то
                 value={title}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
+                label={"Enter title"}
+                error={!!error}
+                helperText={error && "Title is required"}
             />
-            <button onClick={addItem}>+</button>
+            <IconButton
+                onClick={addItem}
+                size={"small"}
+                color={"primary"}
+            >
+                <AddBoxIcon/>
+            </IconButton>
         </div>
     );
 };

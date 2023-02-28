@@ -3,6 +3,8 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import AddItemForm from "./AddItemForm";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {Menu} from "@mui/icons-material";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -136,27 +138,58 @@ function App() {
         ? todoLists.map(el => {
             const tasksForTodolist = getFilteredTasksForRender(tasks[el.id], el.filter)
             return (
-                <Todolist
-                    filter={el.filter}
-                    todoListId={el.id}
-                    title={el.title}
-                    tasks={tasksForTodolist}
-                    removeTask={removeTask}
-                    changeTodoListFilter={changeTodoListFilter}
-                    addTask={addTask}
-                    changeTaskStatus={changeTaskStatus}
-                    removeTodoList={removeTodoList}
-                    changeTaskTitle={changeTaskTitle}
-                    changeTodoListTitle={changeTodoListTitle}
-                />
+                <Grid item>
+                <Paper
+                variant={"outlined"}
+                sx={{p: "15px"}}
+                >
+                    <Todolist
+                        filter={el.filter}
+                        todoListId={el.id}
+                        title={el.title}
+                        tasks={tasksForTodolist}
+                        removeTask={removeTask}
+                        changeTodoListFilter={changeTodoListFilter}
+                        addTask={addTask}
+                        changeTaskStatus={changeTaskStatus}
+                        removeTodoList={removeTodoList}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodoListTitle={changeTodoListTitle}
+                    />
+                </Paper>
+                </Grid>
+
             );
         })
         : <span>Create your first todoList</span>
 
     return (
         <div className="App">
-            <AddItemForm addItem={addTodoList}/>
-            {todoListComponents}
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton
+                        size = "large"
+                        edge = "start"
+                        color = "inherit"
+                        aria-label="menu"
+                        sx={{mr: 2}}>
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                        TodoLists
+                    </Typography>
+                    <Button color={"inherit"}>Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container>
+                    <AddItemForm addItem={addTodoList}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todoListComponents}
+                </Grid>
+
+            </Container>
         </div>
     )
 }

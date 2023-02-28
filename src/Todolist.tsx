@@ -1,8 +1,10 @@
-import React from 'react';
-import {FilterValuesType} from './App';
-import classes from './TodoList.module.css';
+import React from "react";
+import {FilterValuesType} from "./App";
+import classes from "./TodoList.module.css";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 export type TaskType = {
     id: string
@@ -51,10 +53,16 @@ export function Todolist(props: PropsType) {
         props.changeTodoListTitle(title, props.todoListId)
     }
 
-    return <div>
+    return <div >
         <h3>
             <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
-            <button onClick={removeTodoList}>X</button>
+            <IconButton
+                onClick={removeTodoList}
+                size={"small"}
+                color={"primary"}
+            >
+                <DisabledByDefaultIcon/>
+            </IconButton>
         </h3>
         <AddItemForm addItem={addTask}/>
 
@@ -67,25 +75,49 @@ export function Todolist(props: PropsType) {
                         props.changeTaskTitle(t.id, title, props.todoListId)
                     }
 
-                    return <li key={t.id} className={t.isDone ? classes.isDone : ''}>
-                        <input type="checkbox" checked={t.isDone}
-                               onChange={(event) => changeStatusHandler(t.id, event.currentTarget.checked)}/>
+                    return <li key={t.id} className={t.isDone ? classes.isDone : ""}>
+                        <Checkbox checked={t.isDone}
+                                  onChange={(event) => changeStatusHandler(t.id, event.currentTarget.checked)}
+                                  size={"small"}
+                        />
                         <EditableSpan title={t.title} changeTitle={changeTaskTitle}/>
-                        <button onClick={onClickHandler}>x</button>
+                        <IconButton
+                            onClick={onClickHandler}
+                            size={"small"}
+                            color={"primary"}
+                        >
+                            <DisabledByDefaultIcon/>
+                        </IconButton>
+
                     </li>
                 })
             }
         </ul>
         <div>
-            <button onClick={onAllClickHandler} className={props.filter === 'all' ?
-                classes.activeFilter : ''}>All
-            </button>
-            <button onClick={onActiveClickHandler} className={props.filter === 'active' ?
-                classes.activeFilter : ''}>Active
-            </button>
-            <button onClick={onCompletedClickHandler} className={props.filter === 'completed' ?
-                classes.activeFilter : ''}>Completed
-            </button>
+            <Button
+
+                variant={"contained"}
+                sx={{mr: "2px"}}
+                size={"small"}
+                color={props.filter === "all" ?
+                    "secondary" : "primary"}
+                onClick={onAllClickHandler}>All
+            </Button>
+            <Button
+                sx={{mr: "2px"}}
+                variant={"contained"}
+                size={"small"}
+                color={props.filter === "active" ?
+                    "secondary" : "primary"}
+                onClick={onActiveClickHandler}>Active
+            </Button>
+            <Button
+                variant={"contained"}
+                size={"small"}
+                color={props.filter === "completed" ?
+                    "secondary" : "primary"}
+                onClick={onCompletedClickHandler}>Completed
+            </Button>
         </div>
     </div>
 }
