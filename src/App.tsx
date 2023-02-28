@@ -8,7 +8,7 @@ import {Menu} from "@mui/icons-material";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -44,21 +44,18 @@ function App() {
         ],
     })
 
-    function changeTodoListFilter(value: FilterValuesType, todoListId: string) {
+    const changeTodoListFilter =(value: FilterValuesType, todoListId: string) => {
         const updatedTodoLists = todoLists.map(el => el.id === todoListId ? {...el, filter: value} : el)
         setTodoLists(updatedTodoLists)
     }
-
-    function changeTodoListTitle(title: string, todoListId: string) {
+    const changeTodoListTitle =(title: string, todoListId: string) => {
         const updatedTodoLists = todoLists.map(el => el.id === todoListId ? {...el, title: title} : el)
         setTodoLists(updatedTodoLists)
     }
-
     const removeTodoList = (todoListId: string) => {
         const updatedTodoLists = todoLists.filter(el => el.id !== todoListId)
         setTodoLists(updatedTodoLists)
     }
-
     const addTodoList = (title: string) => {
         const newTodoListId = v1()
         const newTodo: TodoListType = {
@@ -70,7 +67,7 @@ function App() {
         setTasks({...tasks, [newTodoListId]: []})
     }
 
-    function removeTask(id: string, todoListId: string) {
+    const removeTask = (id: string, todoListId: string) => {
         // const taskForUpdate = tasks[todoListId]
         // const updatedTasks = taskForUpdate.filter(task => task.id !== id)
         // const copyTasks = {...tasks}
@@ -82,8 +79,7 @@ function App() {
         ///
         setTasks({...tasks, [todoListId]: tasks[todoListId].filter(task => task.id !== id)})
     }
-
-    function addTask(title: string, todoListId: string) {
+    const addTask = (title: string, todoListId: string) => {
         let newTask = {id: v1(), title: title, isDone: false};
         const taskForUpdate = tasks[todoListId]
         const updatedTasks = [...taskForUpdate, newTask]
@@ -93,7 +89,6 @@ function App() {
         /// тоже самое
         // setTasks({...tasks, [todoListId]: [...tasks[todoListId], newTask]})
     }
-
     const changeTaskStatus = (taskID: string, eventStatus: boolean, todoListId: string) => {
         setTasks({
             ...tasks,
@@ -109,18 +104,6 @@ function App() {
         // setTasks(tasks.map(el => el.id === taskID
         //     ? {...el, isDone: eventStatus} : el))
     }
-
-    const getFilteredTasksForRender = (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
-        switch (filter) {
-            case "active":
-                return tasks.filter(task => !task.isDone)
-            case "completed":
-                return tasks.filter(task => task.isDone)
-            default:
-                return tasks
-        }
-    }
-
     const changeTaskTitle = (taskID: string, title: string, todoListId: string) => {
         setTasks({
             ...tasks,
@@ -133,6 +116,18 @@ function App() {
 
         setTasks(copyTasks)
     }
+
+    const getFilteredTasksForRender = (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
+        switch (filter) {
+            case "active":
+                return tasks.filter(task => !task.isDone)
+            case "completed":
+                return tasks.filter(task => task.isDone)
+            default:
+                return tasks
+        }
+    }
+
 
     const todoListComponents = todoLists.length
         ? todoLists.map(el => {

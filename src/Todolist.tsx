@@ -46,9 +46,7 @@ export function Todolist(props: PropsType) {
     const changeStatusHandler = (tID: string, eventValue: boolean) => {
         props.changeTaskStatus(tID, eventValue, props.todoListId)
     }
-
     const addTask = (title: string) => props.addTask(title, props.todoListId)
-
     const changeTodoListTitle = (title: string) => {
         props.changeTodoListTitle(title, props.todoListId)
     }
